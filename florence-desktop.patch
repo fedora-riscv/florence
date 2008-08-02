@@ -1,0 +1,10 @@
+--- florence-0.2.3/data/florence.desktop.old	2008-07-30 20:25:16.000000000 +0200
++++ florence-0.2.3/data/florence.desktop	2008-07-30 20:25:40.000000000 +0200
+@@ -7,6 +7,6 @@
+ Exec=florence
+ Terminal=false
+ Type=Application
+-Icon=florence.svg
++Icon=florence
+ Categories=Application;Accessibility;
+ 
