@@ -1,6 +1,6 @@
 Name:           florence
-Version:        0.2.3
-Release:        2%{?dist}
+Version:        0.3.0
+Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -13,7 +13,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:    libxml2-devel
 BuildRequires:    libglade2-devel
 BuildRequires:    at-spi-devel
-BuildRequires:    libgnomecanvas-devel
+BuildRequires:    librsvg2-devel
+BuildRequires:    cairo-devel
 BuildRequires:    libgnome-devel
 BuildRequires:    gtk2-devel
 BuildRequires:    GConf2-devel
@@ -129,6 +130,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Sep 16 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.0-1
+- New upstream release 
+
 * Wed Jul 30 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.2.3-2
 - Create and add patch0 
 
