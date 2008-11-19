@@ -1,11 +1,11 @@
 Name:           florence
-Version:        0.2.3
+Version:        0.3.0
 Release:        2%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
 License:        GPLv2+ and GFDL
-URL:            http://florence.sourceforge.net/english.html
+URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:         %{name}-desktop.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -13,7 +13,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:    libxml2-devel
 BuildRequires:    libglade2-devel
 BuildRequires:    at-spi-devel
-BuildRequires:    libgnomecanvas-devel
+BuildRequires:    librsvg2-devel
+BuildRequires:    cairo-devel
 BuildRequires:    libgnome-devel
 BuildRequires:    gtk2-devel
 BuildRequires:    GConf2-devel
@@ -62,8 +63,10 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
 make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
-desktop-file-install --vendor="fedora" \
-        --delete-original --remove-category="Application" \
+desktop-file-install \
+        --delete-original \
+        --remove-category="Application; X-GNOME-PersonalSettings" \
+        --add-category="Utility" \
         --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
         $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop
 
@@ -119,7 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING README AUTHORS ChangeLog COPYING-DOCS NEWS
 %{_datadir}/%{name}/
 %{_bindir}/%{name}
-%{_datadir}/applications/fedora-%{name}.desktop
+%{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/%{name}.svg
 %{_datadir}/icons/hicolor/*/apps/%{name}.svg
 %{_datadir}/gnome/help/%{name}/
@@ -129,6 +132,13 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Nov 19 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.0-2
+- Correct URL
+- Correct categories of desktop-file (Bug #472174)
+
+* Tue Sep 16 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.0-1
+- New upstream release 
+
 * Wed Jul 30 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.2.3-2
 - Create and add patch0 
 
