@@ -1,6 +1,6 @@
 Name:           florence
-Version:        0.3.0
-Release:        2%{?dist}
+Version:        0.3.1
+Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -65,15 +65,15 @@ make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
 
 desktop-file-install \
         --delete-original \
-        --remove-category="Application; X-GNOME-PersonalSettings" \
+        --remove-category="Application" \
         --add-category="Utility" \
         --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
         $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/scalable/apps 
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps 
 
 install -p -m 0644 data/%{name}.svg \
-    $RPM_BUILD_ROOT%{_datadir}/icons/hicolor/scalable/apps/%{name}.svg
+    $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
 
 
 %pre
@@ -98,19 +98,9 @@ scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
 export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source)
 gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/%{name}.schemas > /dev/null || :
 
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x %{_bindir}/gtk-update-icon-cache ] ; then
-%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
-
 
 %postun
 scrollkeeper-update -q || :
-
-touch --no-create %{_datadir}/icons/hicolor
-if [ -x %{_bindir}/gtk-update-icon-cache ] ; then
-%{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi 
 
 
 %clean
@@ -124,7 +114,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/%{name}.svg
-%{_datadir}/icons/hicolor/*/apps/%{name}.svg
+%{_datadir}/pixmaps/%{name}.svg
 %{_datadir}/gnome/help/%{name}/
 %{_datadir}/omf/%{name}/
 %{_sysconfdir}/gconf/schemas/%{name}.schemas
@@ -132,6 +122,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Dec 18 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.1-1
+- New upstream release
+- Move installation of icon from highcolortheme to DATADIR/pixmaps
+
 * Wed Nov 19 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.0-2
 - Correct URL
 - Correct categories of desktop-file (Bug #472174)
