@@ -1,5 +1,5 @@
 Name:           florence
-Version:        0.3.1
+Version:        0.3.3
 Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
@@ -7,7 +7,6 @@ Group:          User Interface/X Hardware Support
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Patch0:         %{name}-desktop.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:    libxml2-devel
@@ -20,6 +19,8 @@ BuildRequires:    gtk2-devel
 BuildRequires:    GConf2-devel
 BuildRequires:    desktop-file-utils
 BuildRequires:    scrollkeeper
+BuildRequires:    gettext
+BuildRequires:    libxml++-devel
 Requires(pre):    GConf2
 Requires(preun):  GConf2
 Requires(post):   scrollkeeper
@@ -42,18 +43,17 @@ to help disabled people having difficulties to click.
 
 %prep
 %setup -q
-%patch0 -p1 -b .desktop
 
 rm -f gconf-refresh
 ln -sf /bin/true gconf-refresh
 
+sed -i 's|Icon=florence.svg|Icon=florence|g' data/florence.desktop.in
+
 
 %build
-export CFLAGS
 %configure
 
-make %{?_smp_mflags} \
-     CFLAGS="${RPM_OPT_FLAGS} -Werror-implicit-function-declaration"
+make %{?_smp_mflags} 
 
 
 %install
@@ -74,6 +74,8 @@ mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 
 install -p -m 0644 data/%{name}.svg \
     $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
+
+%find_lang %{name}
 
 
 %pre
@@ -107,9 +109,9 @@ scrollkeeper-update -q || :
 rm -rf $RPM_BUILD_ROOT
 
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc COPYING README AUTHORS ChangeLog COPYING-DOCS NEWS
+%doc AUTHORS ChangeLog COPYING COPYING-DOCS NEWS README 
 %{_datadir}/%{name}/
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
@@ -120,8 +122,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/gconf/schemas/%{name}.schemas
 
 
-
 %changelog
+* Sun Feb 22 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.3-1
+- New upstream release
+
+* Mon Jan 26 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.2-1
+- New upstream release
+
 * Wed Dec 18 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.1-1
 - New upstream release
 - Move installation of icon from highcolortheme to DATADIR/pixmaps
