@@ -1,5 +1,5 @@
 Name:           florence
-Version:        0.3.3
+Version:        0.4.0
 Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
@@ -47,7 +47,7 @@ to help disabled people having difficulties to click.
 rm -f gconf-refresh
 ln -sf /bin/true gconf-refresh
 
-sed -i 's|Icon=florence.svg|Icon=florence|g' data/florence.desktop.in
+sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in
 
 
 %build
@@ -57,23 +57,24 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
-make install DESTDIR=$RPM_BUILD_ROOT INSTALL="install -p"
+make install DESTDIR=%{buildroot} INSTALL="install -p"
 
 desktop-file-install \
         --delete-original \
         --remove-category="Application" \
         --add-category="Utility" \
-        --dir=$RPM_BUILD_ROOT%{_datadir}/applications \
-        $RPM_BUILD_ROOT/%{_datadir}/applications/%{name}.desktop
+        --dir=%{buildroot}%{_datadir}/applications \
+        %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/pixmaps 
+rm -rf %{buildroot}%{_datadir}/icons/
+mkdir -p %{buildroot}%{_datadir}/pixmaps/ 
 
 install -p -m 0644 data/%{name}.svg \
-    $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.svg
+    %{buildroot}%{_datadir}/pixmaps/%{name}.svg
 
 %find_lang %{name}
 
@@ -106,7 +107,7 @@ scrollkeeper-update -q || :
 
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 
 %files -f %{name}.lang
@@ -115,7 +116,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}/
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/icons/%{name}.svg
 %{_datadir}/pixmaps/%{name}.svg
 %{_datadir}/gnome/help/%{name}/
 %{_datadir}/omf/%{name}/
@@ -123,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 23 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.0-1
+- New upstream release
+
 * Sun Feb 22 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.3-1
 - New upstream release
 
