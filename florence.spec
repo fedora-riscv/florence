@@ -1,5 +1,5 @@
 Name:           florence
-Version:        0.4.0
+Version:        0.4.1
 Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
@@ -9,18 +9,22 @@ URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+
+BuildRequires:    gtk2-devel
 BuildRequires:    libxml2-devel
 BuildRequires:    libglade2-devel
 BuildRequires:    at-spi-devel
 BuildRequires:    librsvg2-devel
 BuildRequires:    cairo-devel
 BuildRequires:    libgnome-devel
-BuildRequires:    gtk2-devel
 BuildRequires:    GConf2-devel
 BuildRequires:    desktop-file-utils
 BuildRequires:    scrollkeeper
 BuildRequires:    gettext
+BuildRequires:    intltool
 BuildRequires:    libxml++-devel
+BuildRequires:    libnotify-devel
+BuildRequires:    libXtst-devel
 Requires(pre):    GConf2
 Requires(preun):  GConf2
 Requires(post):   scrollkeeper
@@ -47,7 +51,7 @@ to help disabled people having difficulties to click.
 rm -f gconf-refresh
 ln -sf /bin/true gconf-refresh
 
-sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in
+sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in.in
 
 
 %build
@@ -123,6 +127,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jun 02 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.1-1
+- New upstream release
+
 * Mon Mar 23 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.0-1
 - New upstream release
 
