@@ -1,6 +1,6 @@
 Name:           florence
-Version:        0.4.1
-Release:        1%{?dist}
+Version:        0.4.2
+Release:        0.1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -20,11 +20,9 @@ BuildRequires:    libgnome-devel
 BuildRequires:    GConf2-devel
 BuildRequires:    desktop-file-utils
 BuildRequires:    scrollkeeper
-BuildRequires:    gettext
 BuildRequires:    intltool
-BuildRequires:    libxml++-devel
 BuildRequires:    libnotify-devel
-BuildRequires:    libXtst-devel
+#BuildRequires:    libXtst-devel
 Requires(pre):    GConf2
 Requires(preun):  GConf2
 Requires(post):   scrollkeeper
@@ -55,7 +53,8 @@ sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in.in
 
 
 %build
-%configure
+%configure \
+      --without-xtst \
 
 make %{?_smp_mflags} 
 
@@ -63,7 +62,7 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 
-export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
+GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
 make install DESTDIR=%{buildroot} INSTALL="install -p"
 
@@ -74,7 +73,6 @@ desktop-file-install \
         --dir=%{buildroot}%{_datadir}/applications \
         %{buildroot}/%{_datadir}/applications/%{name}.desktop
 
-rm -rf %{buildroot}%{_datadir}/icons/
 mkdir -p %{buildroot}%{_datadir}/pixmaps/ 
 
 install -p -m 0644 data/%{name}.svg \
@@ -119,14 +117,17 @@ rm -rf %{buildroot}
 %doc AUTHORS ChangeLog COPYING COPYING-DOCS NEWS README 
 %{_datadir}/%{name}/
 %{_bindir}/%{name}
-%{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/%{name}.svg
+%{_datadir}/applications/%{name}.*
 %{_datadir}/gnome/help/%{name}/
 %{_datadir}/omf/%{name}/
 %{_sysconfdir}/gconf/schemas/%{name}.schemas
+%{_datadir}/pixmaps/%{name}.svg
 
 
 %changelog
+* Sat Jun 13 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.2-0.1
+- Update to an unofficial prerelease (upstream sent it via email)
+
 * Tue Jun 02 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.1-1
 - New upstream release
 
