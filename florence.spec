@@ -1,6 +1,6 @@
 Name:           florence
 Version:        0.4.2
-Release:        0.1%{?dist}
+Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -28,6 +28,7 @@ Requires(preun):  GConf2
 Requires(post):   scrollkeeper
 Requires(post):   GConf2
 Requires(postun): scrollkeeper
+Requires:         control-center
 
 
 %description
@@ -125,6 +126,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 17 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.2-1
+- New upstream release
+
 * Sat Jun 13 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.2-0.1
 - Update to an unofficial prerelease (upstream sent it via email)
 
