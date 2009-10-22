@@ -1,5 +1,5 @@
 Name:           florence
-Version:        0.4.2
+Version:        0.4.4
 Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
@@ -22,6 +22,7 @@ BuildRequires:    desktop-file-utils
 BuildRequires:    scrollkeeper
 BuildRequires:    intltool
 BuildRequires:    libnotify-devel
+BuildRequires:    gnome-doc-utils
 #BuildRequires:    libXtst-devel
 Requires(pre):    GConf2
 Requires(preun):  GConf2
@@ -29,6 +30,7 @@ Requires(post):   scrollkeeper
 Requires(post):   GConf2
 Requires(postun): scrollkeeper
 Requires:         control-center
+Requires:         gnome-doc-utils
 
 
 %description
@@ -56,6 +58,7 @@ sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in.in
 %build
 %configure \
       --without-xtst \
+      --without-xrecord 
 
 make %{?_smp_mflags} 
 
@@ -126,6 +129,15 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Oct 22 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.4-1
+- New upstream release
+
+* Thu Aug 20 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.3-1
+- New upstream release
+
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Fri Jul 17 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.2-1
 - New upstream release
 
