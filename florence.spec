@@ -1,5 +1,5 @@
 Name:           florence
-Version:        0.4.5
+Version:        0.4.6
 Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
@@ -129,6 +129,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jan 28 2010 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.6-1
+- New upstream release
+- Fixed RHBZ #550165
+
 * Fri Dec 11 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.5-1
 - New upstream release
 
