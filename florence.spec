@@ -1,6 +1,6 @@
 Name:           florence
 Version:        0.4.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
