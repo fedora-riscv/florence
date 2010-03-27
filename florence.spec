@@ -9,6 +9,7 @@ URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+Patch0:         %{name}-0.4.6-libm_libx11.patch
 
 BuildRequires:    gtk2-devel
 BuildRequires:    libxml2-devel
@@ -48,6 +49,8 @@ to help disabled people having difficulties to click.
 
 %prep
 %setup -q
+
+%patch0 -p1
 
 rm -f gconf-refresh
 ln -sf /bin/true gconf-refresh
@@ -129,6 +132,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Mar 27 2010 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.6-2
+- Patch DSO
+
 * Thu Jan 28 2010 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.6-1
 - New upstream release
 - Fixed RHBZ #550165
