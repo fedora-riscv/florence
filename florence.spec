@@ -1,6 +1,6 @@
 Name:           florence
-Version:        0.4.6
-Release:        2%{?dist}
+Version:        0.4.7
+Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -8,8 +8,6 @@ License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-Patch0:         %{name}-0.4.6-libm_libx11.patch
 
 BuildRequires:    gtk2-devel
 BuildRequires:    libxml2-devel
@@ -49,8 +47,6 @@ to help disabled people having difficulties to click.
 
 %prep
 %setup -q
-
-%patch0 -p1
 
 rm -f gconf-refresh
 ln -sf /bin/true gconf-refresh
@@ -132,6 +128,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jun 23 2010 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.7-1
+- New Upstream Release
+
 * Sat Mar 27 2010 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.6-2
 - Patch DSO
 
