@@ -1,6 +1,6 @@
 Name:           florence
 Version:        0.4.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -20,7 +20,7 @@ BuildRequires:    GConf2-devel
 BuildRequires:    desktop-file-utils
 BuildRequires:    scrollkeeper
 BuildRequires:    intltool
-BuildRequires:    libnotify-devel
+#BuildRequires:    libnotify-devel
 BuildRequires:    gnome-doc-utils
 #BuildRequires:    libXtst-devel
 Requires(pre):    GConf2
@@ -57,7 +57,8 @@ sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in.in
 %build
 %configure \
       --without-xtst \
-      --without-xrecord 
+      --without-xrecord \
+      --without-notification 
 
 make %{?_smp_mflags} 
 
@@ -128,6 +129,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Nov 12 2010 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.7-2
+- Build without libnotify
+
 * Wed Jun 23 2010 Simon Wesp <cassmodiah@fedoraproject.org> - 0.4.7-1
 - New Upstream Release
 
