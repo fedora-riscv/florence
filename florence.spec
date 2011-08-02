@@ -1,6 +1,6 @@
 Name:           florence
 Version:        0.5.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -58,7 +58,6 @@ sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in.in
 %build
 #without panelapplet for gnome3
 %configure \
-      --without-xtst \
       --without-panelapplet \
       --without-xrecord 
 
@@ -70,7 +69,9 @@ rm -rf %{buildroot}
 
 GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 
-make install DESTDIR=%{buildroot} INSTALL="install -p"
+make install \
+     DESTDIR=%{buildroot} \
+     INSTALL="install -p"
 
 desktop-file-install \
         --delete-original \
@@ -131,6 +132,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Aug 02 2011 Simon Wesp <cassmodiah@fedoraproject.org> - 0.5.0-2
+- Fixing RHBZ#690475
+
 * Fri Jan 28 2011 Simon Wesp <cassmodiah@fedoraproject.org> - 0.5.0-1
 - New upstream release
 
