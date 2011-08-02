@@ -23,7 +23,7 @@ BuildRequires:    intltool
 BuildRequires:    libnotify-devel
 #BuildRequires:    libpanelappletmm-devel
 BuildRequires:    gnome-doc-utils
-#BuildRequires:    libXtst-devel
+BuildRequires:    libXtst-devel
 Requires(pre):    GConf2
 Requires(preun):  GConf2
 Requires(post):   scrollkeeper
