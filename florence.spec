@@ -1,6 +1,6 @@
 Name:           florence
 Version:        0.5.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
@@ -132,6 +132,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 0.5.0-3
 - Rebuild for new libpng
 
