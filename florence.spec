@@ -7,6 +7,7 @@ Group:          User Interface/X Hardware Support
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Patch0:         florence-0.5.0-glib.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:    gtk2-devel
@@ -48,6 +49,7 @@ to help disabled people having difficulties to click.
 
 %prep
 %setup -q
+%patch0 -p1 -b .glib
 
 rm -f gconf-refresh
 ln -sf /bin/true gconf-refresh
