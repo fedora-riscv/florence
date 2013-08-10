@@ -1,13 +1,12 @@
 Name:           florence
-Version:        0.5.0
-Release:        7%{?dist}
+Version:        0.6.0
+Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 
 Group:          User Interface/X Hardware Support
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Patch0:         florence-0.5.0-glib.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:    gtk2-devel
@@ -22,9 +21,9 @@ BuildRequires:    desktop-file-utils
 BuildRequires:    scrollkeeper
 BuildRequires:    intltool
 BuildRequires:    libnotify-devel
-#BuildRequires:    libpanelappletmm-devel
 BuildRequires:    gnome-doc-utils
 BuildRequires:    libXtst-devel
+BuildRequires:    gstreamer-devel
 Requires(pre):    GConf2
 Requires(preun):  GConf2
 Requires(post):   scrollkeeper
@@ -49,7 +48,6 @@ to help disabled people having difficulties to click.
 
 %prep
 %setup -q
-%patch0 -p1 -b .glib
 
 rm -f gconf-refresh
 ln -sf /bin/true gconf-refresh
@@ -94,7 +92,7 @@ install -p -m 0644 data/%{name}.svg \
 if [ "$1" -gt 1 ]; then
     export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source)
     gconftool-2 --makefile-uninstall-rule \
-    %{_sysconfdir}/gconf/schemas/%{name}.schemas > /dev/null || :
+    %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml > /dev/null || :
 fi
 
 
@@ -102,7 +100,7 @@ fi
 if [ "$1" -eq 0 ]; then
     export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source)
     gconftool-2 --makefile-uninstall-rule \
-    %{_sysconfdir}/gconf/schemas/%{name}.schemas > /dev/null || :
+    %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml > /dev/null || :
 fi
 
 
@@ -110,7 +108,7 @@ fi
 scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
 
 export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source)
-gconftool-2 --makefile-install-rule %{_sysconfdir}/gconf/schemas/%{name}.schemas > /dev/null || :
+gconftool-2 --makefile-install-rule %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml > /dev/null || :
 
 
 %postun
@@ -129,11 +127,15 @@ rm -rf %{buildroot}
 %{_datadir}/applications/%{name}.*
 %{_datadir}/gnome/help/%{name}/
 %{_datadir}/omf/%{name}/
-%{_sysconfdir}/gconf/schemas/%{name}.schemas
 %{_datadir}/pixmaps/%{name}.svg
-
+%{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml
+%{_mandir}/man1/%{name}.*
+%{_mandir}/man1/%{name}_applet.*
 
 %changelog
+* Sat Aug 10 2013 Simon Dietz <cassmodiah@fedoraproject.org> - 0.6.0-1
+- New upstream release
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.5.0-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
