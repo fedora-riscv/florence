@@ -1,37 +1,29 @@
 Name:           florence
-Version:        0.6.0
+Version:        0.6.2
 Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
-
-Group:          User Interface/X Hardware Support
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildRequires:    gtk2-devel
-BuildRequires:    libxml2-devel
-BuildRequires:    libglade2-devel
-BuildRequires:    at-spi-devel
-BuildRequires:    librsvg2-devel
-BuildRequires:    cairo-devel
-BuildRequires:    libgnome-devel
-BuildRequires:    GConf2-devel
-BuildRequires:    desktop-file-utils
-BuildRequires:    scrollkeeper
-BuildRequires:    intltool
-BuildRequires:    libnotify-devel
-BuildRequires:    gnome-doc-utils
-BuildRequires:    libXtst-devel
-BuildRequires:    gstreamer-devel
-Requires(pre):    GConf2
+BuildRequires:  at-spi2-core-devel
+BuildRequires:  cairo-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  GConf2-devel
+BuildRequires:  gnome-doc-utils
+BuildRequires:  gstreamer-devel
+BuildRequires:  gtk3-devel
+BuildRequires:  intltool
+BuildRequires:  libglade2-devel
+BuildRequires:  libgnome-devel
+BuildRequires:  libnotify-devel
+BuildRequires:  librsvg2-devel
+BuildRequires:  libxml2-devel
+BuildRequires:  libXtst-devel
+Requires(pre):  GConf2
 Requires(preun):  GConf2
-Requires(post):   scrollkeeper
-Requires(post):   GConf2
-Requires(postun): scrollkeeper
-Requires:         control-center
-Requires:         gnome-doc-utils
-
+Requires(post):  GConf2
+Requires:       control-center
+Requires:       gnome-doc-utils
 
 %description
 Florence is an extensible scalable virtual keyboard for GNOME. 
@@ -45,83 +37,40 @@ it appears on the screen only when you need it.
 A Timer-based auto-click functionality is available 
 to help disabled people having difficulties to click.
 
-
 %prep
 %setup -q
-
-rm -f gconf-refresh
-ln -sf /bin/true gconf-refresh
-
-sed -i 's|Icon=%{name}.svg|Icon=%{name}|g' data/%{name}.desktop.in.in
-
+sed -i -e 's|Icon=.*|Icon=%{name}|g' data/%{name}.desktop.in.in
 
 %build
-#without panelapplet for gnome3
-%configure \
-      --without-panelapplet \
-      --without-xrecord 
-
+# without panelapplet for gnome3
+%configure --without-panelapplet
 make %{?_smp_mflags} 
 
-
 %install
-rm -rf %{buildroot}
-
 GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
-
-make install \
-     DESTDIR=%{buildroot} \
-     INSTALL="install -p"
+%make_install
 
 desktop-file-install \
         --delete-original \
         --remove-category="Application" \
         --add-category="Utility" \
         --dir=%{buildroot}%{_datadir}/applications \
-        %{buildroot}/%{_datadir}/applications/%{name}.desktop
+        %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-mkdir -p %{buildroot}%{_datadir}/pixmaps/ 
-
-install -p -m 0644 data/%{name}.svg \
-    %{buildroot}%{_datadir}/pixmaps/%{name}.svg
+install -pDm0644 data/%{name}.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
 
 %find_lang %{name}
 
-
-%pre
-if [ "$1" -gt 1 ]; then
-    export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source)
-    gconftool-2 --makefile-uninstall-rule \
-    %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml > /dev/null || :
-fi
-
-
-%preun
-if [ "$1" -eq 0 ]; then
-    export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source)
-    gconftool-2 --makefile-uninstall-rule \
-    %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml > /dev/null || :
-fi
-
-
-%post
-scrollkeeper-update -q -o %{_datadir}/omf/%{name} || :
-
-export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source)
-gconftool-2 --makefile-install-rule %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml > /dev/null || :
-
-
 %postun
-scrollkeeper-update -q || :
+if [ $1 -eq 0 ] ; then
+    glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
+fi
 
-
-%clean
-rm -rf %{buildroot}
-
+%posttrans
+glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING COPYING-DOCS NEWS README 
+%doc AUTHORS ChangeLog COPYING COPYING-DOCS README 
 %{_datadir}/%{name}/
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.*
@@ -133,6 +82,14 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}_applet.*
 
 %changelog
+* Sat May 17 2014 Christopher Meng <rpm@cicku.me> - 0.6.2-1
+- Update to 0.6.2
+
+* Tue May 13 2014 Christopher Meng <rpm@cicku.me> - 0.6.1-1
+- Update to 0.6.1
+- Switch to GTK3 and at-spi2.
+- SPEC cleanup, remove obsoleted scrollkeeper actions.
+
 * Sat Aug 10 2013 Simon Dietz <cassmodiah@fedoraproject.org> - 0.6.0-1
 - New upstream release
 
@@ -200,7 +157,7 @@ rm -rf %{buildroot}
 * Mon Jan 26 2009 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.2-1
 - New upstream release
 
-* Wed Dec 18 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.1-1
+* Thu Dec 18 2008 Simon Wesp <cassmodiah@fedoraproject.org> - 0.3.1-1
 - New upstream release
 - Move installation of icon from highcolortheme to DATADIR/pixmaps
 
