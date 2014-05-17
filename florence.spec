@@ -44,7 +44,7 @@ sed -i -e 's|Icon=.*|Icon=%{name}|g' data/%{name}.desktop.in.in
 %build
 # without panelapplet for gnome3
 %configure --without-panelapplet
-make %{?_smp_mflags} 
+make
 
 %install
 GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
@@ -80,6 +80,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml
 %{_mandir}/man1/%{name}.*
 %{_mandir}/man1/%{name}_applet.*
+%{_libdir}/lib%{name}-*
+%{_libdir}/pkgconfig/%{name}-*.pc
+%{_includedir}/%{name}-*
 
 %changelog
 * Sat May 17 2014 Christopher Meng <rpm@cicku.me> - 0.6.2-1
