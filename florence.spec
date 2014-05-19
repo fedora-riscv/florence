@@ -19,6 +19,7 @@ BuildRequires:  libnotify-devel
 BuildRequires:  librsvg2-devel
 BuildRequires:  libxml2-devel
 BuildRequires:  libXtst-devel
+BuildRequires:  scrollkeeper
 Requires(pre):  GConf2
 Requires(preun):  GConf2
 Requires(post):  GConf2
