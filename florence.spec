@@ -10,7 +10,7 @@ BuildRequires:  cairo-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  GConf2-devel
 BuildRequires:  gnome-doc-utils
-BuildRequires:  gstreamer-devel
+BuildRequires:  gstreamer1-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  intltool
 BuildRequires:  libglade2-devel
@@ -18,6 +18,7 @@ BuildRequires:  libgnome-devel
 BuildRequires:  libnotify-devel
 BuildRequires:  librsvg2-devel
 BuildRequires:  libxml2-devel
+BuildRequires:  libXext-devel
 BuildRequires:  libXtst-devel
 BuildRequires:  scrollkeeper
 Requires(pre):  GConf2
