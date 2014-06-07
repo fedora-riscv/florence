@@ -1,6 +1,6 @@
 Name:           florence
 Version:        0.6.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
@@ -87,6 +87,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_includedir}/%{name}-*
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Sat May 17 2014 Christopher Meng <rpm@cicku.me> - 0.6.2-1
 - Update to 0.6.2
 
