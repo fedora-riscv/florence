@@ -1,31 +1,38 @@
+%bcond_without  doc
+%bcond_without  xtst
+%bcond_without  notification
+
 Name:           florence
-Version:        0.6.2
-Release:        3%{?dist}
+Version:        0.6.3
+Release:        1%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
 Source0:        http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-BuildRequires:  at-spi2-core-devel
-BuildRequires:  cairo-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  GConf2-devel
+BuildRequires:  glib2-devel
+%if %{with doc}
 BuildRequires:  gnome-doc-utils
+%endif
 BuildRequires:  gstreamer1-devel
 BuildRequires:  gtk3-devel
 BuildRequires:  intltool
-BuildRequires:  libglade2-devel
-BuildRequires:  libgnome-devel
+#BuildRequires:  libgnome-devel
+%if %{with notification}
 BuildRequires:  libnotify-devel
+%endif
 BuildRequires:  librsvg2-devel
-BuildRequires:  libxml2-devel
 BuildRequires:  libXext-devel
+BuildRequires:  libxml2-devel
+%if %{with xtst}
 BuildRequires:  libXtst-devel
+%endif
 BuildRequires:  scrollkeeper
 Requires(pre):  GConf2
-Requires(preun):  GConf2
-Requires(post):  GConf2
+Requires(preun):GConf2
+Requires(post): GConf2
 Requires:       control-center
-Requires:       gnome-doc-utils
 
 %description
 Florence is an extensible scalable virtual keyboard for GNOME. 
@@ -39,18 +46,42 @@ it appears on the screen only when you need it.
 A Timer-based auto-click functionality is available 
 to help disabled people having difficulties to click.
 
+%package        devel
+Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+
+%description    devel
+This package contains libraries and header files for
+developing applications that use %{name}.
+
 %prep
 %setup -q
-sed -i -e 's|Icon=.*|Icon=%{name}|g' data/%{name}.desktop.in.in
+sed -i -e 's|Icon=.*|Icon=%{name}|g' -e '/Encoding/d' data/%{name}.desktop.in.in
 
 %build
-# without panelapplet for gnome3
-%configure --without-panelapplet
+%configure  \
+%if %{without doc}
+            --without-docs \
+%endif
+%if %{without notification}
+            --without-notification \
+%endif
+%if %{without xtst}
+            --without-xtst \
+%endif
+%if %{without doc}
+            --without-docs \
+%endif
+            --with-panelapplet \
+            --without-at-spi \
+            --disable-static
 make
 
 %install
 GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 %make_install
+
+find %{buildroot} -name '*.*a' -delete -print
 
 desktop-file-install \
         --delete-original \
@@ -63,30 +94,43 @@ install -pDm0644 data/%{name}.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
 
 %find_lang %{name}
 
+%post -p /sbin/ldconfig
+
 %postun
 if [ $1 -eq 0 ] ; then
     glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 fi
+/sbin/ldconfig
 
 %posttrans
 glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 %files -f %{name}.lang
-%doc AUTHORS ChangeLog COPYING COPYING-DOCS README 
-%{_datadir}/%{name}/
+%doc AUTHORS ChangeLog README
+%license COPYING COPYING-DOCS
 %{_bindir}/%{name}
+%{_datadir}/%{name}/
 %{_datadir}/applications/%{name}.*
+%if %{with doc}
 %{_datadir}/gnome/help/%{name}/
 %{_datadir}/omf/%{name}/
-%{_datadir}/pixmaps/%{name}.svg
-%{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml
 %{_mandir}/man1/%{name}.*
 %{_mandir}/man1/%{name}_applet.*
-%{_libdir}/lib%{name}-*
-%{_libdir}/pkgconfig/%{name}-*.pc
-%{_includedir}/%{name}-*
+%endif
+%{_datadir}/pixmaps/%{name}.svg
+%{_datadir}/glib-2.0/schemas/org.%{name}.gschema.xml
+%{_libdir}/libflorence-1.0.so.*
+
+%files devel
+%{_includedir}/%{name}-1.0/
+%{_libdir}/libflorence-1.0.so
+%{_libdir}/pkgconfig/%{name}-1.0.pc
 
 %changelog
+* Wed Mar 04 2015 Christopher Meng <rpm@cicku.me> - 0.6.3-1
+- Update to 0.6.3
+- Temporarily disable at-spi support since it's broken here.
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
