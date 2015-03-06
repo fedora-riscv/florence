@@ -106,8 +106,7 @@ fi
 glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 %files -f %{name}.lang
-%doc AUTHORS ChangeLog README
-%license COPYING COPYING-DOCS
+%doc AUTHORS ChangeLog COPYING COPYING-DOCS README
 %{_bindir}/%{name}
 %{_datadir}/%{name}/
 %{_datadir}/applications/%{name}.*
@@ -130,12 +129,6 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 * Wed Mar 04 2015 Christopher Meng <rpm@cicku.me> - 0.6.3-1
 - Update to 0.6.3
 - Temporarily disable at-spi support since it's broken here.
-
-* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.2-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.2-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
 * Sat May 17 2014 Christopher Meng <rpm@cicku.me> - 0.6.2-1
 - Update to 0.6.2
