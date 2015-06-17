@@ -4,7 +4,7 @@
 
 Name:           florence
 Version:        0.6.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
@@ -127,6 +127,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_libdir}/pkgconfig/%{name}-1.0.pc
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.3-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Wed Mar 04 2015 Christopher Meng <rpm@cicku.me> - 0.6.3-1
 - Update to 0.6.3
 - Temporarily disable at-spi support since it's broken here.
