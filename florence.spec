@@ -94,13 +94,10 @@ install -pDm0644 data/%{name}.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
 
 %find_lang %{name}
 
-%post -p /sbin/ldconfig
-
 %postun
 if [ $1 -eq 0 ] ; then
     glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 fi
-/sbin/ldconfig
 
 %posttrans
 glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
