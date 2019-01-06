@@ -30,9 +30,6 @@ BuildRequires:  libxml2-devel
 BuildRequires:  libXtst-devel
 %endif
 BuildRequires:  scrollkeeper
-Requires(pre):  GConf2
-Requires(preun):GConf2
-Requires(post): GConf2
 Requires:       control-center
 
 %description
@@ -94,14 +91,6 @@ desktop-file-install \
 install -pDm0644 data/%{name}.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
 
 %find_lang %{name}
-
-%postun
-if [ $1 -eq 0 ] ; then
-    glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
-fi
-
-%posttrans
-glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 %files -f %{name}.lang
 %doc AUTHORS ChangeLog README
