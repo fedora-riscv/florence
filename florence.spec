@@ -4,7 +4,7 @@
 
 Name:           florence
 Version:        0.6.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
@@ -114,6 +114,9 @@ install -pDm0644 data/%{name}.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
 %{_libdir}/pkgconfig/%{name}-1.0.pc
 
 %changelog
+* Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
