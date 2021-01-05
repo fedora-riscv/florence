@@ -30,6 +30,7 @@ BuildRequires:  libxml2-devel
 BuildRequires:  libXtst-devel
 %endif
 BuildRequires:  scrollkeeper
+BuildRequires: make
 Requires:       control-center
 
 %description
