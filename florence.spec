@@ -31,6 +31,9 @@ BuildRequires:  libXtst-devel
 %endif
 BuildRequires:  scrollkeeper
 BuildRequires: make
+%ifarch aarch64
+BuildRequires: chrpath
+%endif
 Requires:       control-center
 
 %description
@@ -90,6 +93,10 @@ desktop-file-install \
         %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 install -pDm0644 data/%{name}.svg %{buildroot}%{_datadir}/pixmaps/%{name}.svg
+
+%ifarch aarch64
+chrpath --delete %{buildroot}/usr/bin/florence
+%endif
 
 %find_lang %{name}
 
