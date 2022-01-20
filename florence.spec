@@ -4,7 +4,7 @@
 
 Name:           florence
 Version:        0.6.3
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
@@ -122,6 +122,9 @@ chrpath --delete %{buildroot}/usr/bin/florence
 %{_libdir}/pkgconfig/%{name}-1.0.pc
 
 %changelog
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0.6.3-15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
