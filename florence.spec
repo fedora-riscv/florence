@@ -2,9 +2,14 @@
 %bcond_without  xtst
 %bcond_without  notification
 
+%ifarch riscv64
+# check rpath failed on riscv64
+%undefine __brp_check_rpaths
+%endif
+
 Name:           florence
 Version:        0.6.3
-Release:        19%{?dist}
+Release:        19.rv64%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
@@ -123,6 +128,9 @@ chrpath --delete %{buildroot}/usr/bin/florence
 %{_libdir}/pkgconfig/%{name}-1.0.pc
 
 %changelog
+* Tue May 23 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 0.6.3-19.rv64
+- Fix build on riscv64.
+
 * Thu Jan 19 2023 Florian Weimer <fweimer@redhat.com> - 0.6.3-19
 - Apply upstream patch to fix C99 compatibility issue
 
