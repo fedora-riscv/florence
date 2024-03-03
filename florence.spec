@@ -2,9 +2,14 @@
 %bcond_without  xtst
 %bcond_without  notification
 
+%ifarch riscv64
+# check rpath failed on riscv64
+%undefine __brp_check_rpaths
+%endif
+
 Name:           florence
 Version:        0.6.3
-Release:        20%{?dist}
+Release:        20.rv64%{?dist}
 Summary:        Extensible scalable on-screen virtual keyboard for GNOME 
 License:        GPLv2+ and GFDL
 URL:            http://florence.sourceforge.net
